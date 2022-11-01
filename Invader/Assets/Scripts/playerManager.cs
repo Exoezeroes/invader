@@ -2,8 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class playerMovement : MonoBehaviour
+public class playerManager : MonoBehaviour
 {
+    public float hp = 100; // Health Point
+    public float mp = 10; // Mana Point
+    public float sp = 100; // Stamina Point
+    public float maxHp = 100; // Max Health Point
+    public float maxMp = 10; // Max Mana Point
+    public float maxSp = 100; // Max Stamina Point
     [SerializeField] Rigidbody2D rb;
 
     [SerializeField] bool isMoving = false;
