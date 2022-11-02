@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class camFollow : MonoBehaviour
+public class CamFollow : MonoBehaviour
 {
+#pragma warning disable 0649
     [SerializeField] Transform target;
+#pragma warning restore 0649
 
     void Update()
     {
