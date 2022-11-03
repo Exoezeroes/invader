@@ -12,13 +12,13 @@ public abstract class CharacterController : MonoBehaviour
     [SerializeField] protected bool isOnGround = false;
     [SerializeField] protected bool isJumping = false;
         // Accelerations
-    [SerializeField] protected float groundAccel = 20;
-    [SerializeField] protected float jumpAccel = 30;
-    [SerializeField] protected float airAccel = 5;
+    [SerializeField] protected float groundAccel = 15;
+    [SerializeField] protected float jumpAccel = 60;
+    [SerializeField] protected float airAccel = 9;
         // Max Speeds
-    [SerializeField] protected float maxGroundSpeed = 20;
-    [SerializeField] protected float maxJumpSpeed = 60;
-    [SerializeField] protected float maxAirSpeed = 20;
+    [SerializeField] protected float maxGroundSpeed = 15;
+    [SerializeField] protected float maxJumpSpeed = 30;
+    [SerializeField] protected float maxAirSpeed = 15;
         // Durations
     [SerializeField] protected float curJumpDur = 0f;    //seconds
     [SerializeField] protected float maxJumpDur = 0.1f; //seconds
