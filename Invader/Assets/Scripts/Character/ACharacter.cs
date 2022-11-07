@@ -14,7 +14,6 @@ public abstract class ACharacter : MonoBehaviour
     [SerializeField] private float currentMaxHP = 100;
     [SerializeField] private float baseMaxHP = 100;
     [SerializeField] private float multiplierHP = 1;
-    public float testHp;
         // Mana Point
     [SerializeField] private float currentMP = 10; 
     [SerializeField] private float currentMaxMP = 10;
@@ -47,14 +46,14 @@ public abstract class ACharacter : MonoBehaviour
         // Physics Body
     public Rigidbody2D GetRigidbody() { return rb; }
         // HP
-    public float GetHp() { return currentHP; }
-    public float GetMaxHp() { return currentMaxHP; }
+    public float GetHP() { return currentHP; }
+    public float GetMaxHP() { return currentMaxHP; }
         // MP
-    public float GetMp() { return currentMP; } 
-    public float GetMaxMp() { return currentMaxMP; }
+    public float GetMP() { return currentMP; } 
+    public float GetMaxMP() { return currentMaxMP; }
         // SP
-    public float GetSp() { return currentSP; }
-    public float GetMaxSp() { return currentMaxSP; }
+    public float GetSP() { return currentSP; }
+    public float GetMaxSP() { return currentMaxSP; }
         // Stats
     public float GetBuildRange() { return buildRange; }
     public float GetCurrentJumpTime() { return jumpTime; }
@@ -84,17 +83,17 @@ public abstract class ACharacter : MonoBehaviour
     }
 
     // Methods
-    public void HealHp(float val)
+    public void HealHP(float val)
     {
         currentHP += val;
-        if (currentHP > baseMaxHP) {currentHP = baseMaxHP;}
+        if (currentHP > currentMaxHP) {currentHP = currentMaxHP;}
     }
-    public void HealMp(float val)
+    public void HealMP(float val)
     {
         currentMP += val;
         if (currentMP > currentMaxMP) {currentMP = currentMaxMP;}
     }
-    public void HealSp(float val)
+    public void HealSP(float val)
     {
         currentSP += val;
         if (currentSP > currentMaxSP) {currentSP = currentMaxSP;}

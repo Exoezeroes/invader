@@ -10407,6 +10407,24 @@ MonoBehaviour:
   maxGroundSpeed: 15
   maxJumpSpeed: 30
   maxAirSpeed: 15
+  baseRegenHP: 0
+  regenPercentHP: 0
+  regenMultiplierHP: 0
+  regenFactorHP: 0
+  minMultiplierRegenHP: 0
+  maxMultiplierRegenHP: 0
+  baseRegenMP: 0
+  regenPercentMP: 0
+  regenMultiplierMP: 0
+  regenFactorMP: 0
+  minMultiplierRegenMP: 0
+  maxMultiplierRegenMP: 0
+  baseRegenSP: 0
+  regenPercentSP: 0
+  regenMultiplierSP: 0
+  regenFactorSP: 0
+  minMultiplierRegenSP: 0
+  maxMultiplierRegenSP: 0
 --- !u!212 &1687774392
 SpriteRenderer:
   m_ObjectHideFlags: 0

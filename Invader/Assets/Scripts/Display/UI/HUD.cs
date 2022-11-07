@@ -18,13 +18,13 @@ public class HUD : MonoBehaviour
 
     void Update()
     {
-        hpBar.value = player.GetHp();
-        mpBar.value = player.GetMp();
-        spBar.value = player.GetSp();
+        hpBar.value = player.GetHP();
+        mpBar.value = player.GetMP();
+        spBar.value = player.GetSP();
 
-        hpBar.maxValue = player.GetMaxHp();
-        mpBar.maxValue = player.GetMaxMp();
-        spBar.maxValue = player.GetMaxSp();
+        hpBar.maxValue = player.GetMaxHP();
+        mpBar.maxValue = player.GetMaxMP();
+        spBar.maxValue = player.GetMaxSP();
         
         hpText.text = "" + Mathf.Round(hpBar.value) + "/" + Mathf.Round(hpBar.maxValue);
         mpText.text = "" + Mathf.Round(mpBar.value) + "/" + Mathf.Round(mpBar.maxValue);
