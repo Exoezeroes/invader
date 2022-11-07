@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : CharacterController
+public class PlayerController : AController
 {
     public override void FixedUpdate() 
     {
@@ -12,24 +12,23 @@ public class PlayerController : CharacterController
 
     public Vector2 Horizontal() 
     {
-        Vector2 vector = new Vector2(0f, 0f);
+        Vector2 vector = Vector2.zero;
 
         float horizontal = Input.GetAxisRaw("Horizontal");
         
         if (Input.GetButton("Horizontal")) 
         {
-            isMoving = true;
+            character.SetMoving(true);
 
-            float acceleration = isOnGround ? groundAccel : airAccel;
-            float maxSpeed = isOnGround ? maxGroundSpeed : maxAirSpeed;
+            float acceleration = character.OnGround() ? character.GetGroundAccel() : character.GetAirAccel();
+            float maxSpeed = character.OnGround() ? character.GetMaxGroundSpeed() : character.GetMaxAirSpeed();
             SetDrag(acceleration/maxSpeed);
             
-            vector = transform.right * acceleration * horizontal;
+            vector = acceleration * horizontal * transform.right;
         }
-
-        else if (isMoving) 
+        else
         {
-            isMoving = false;
+            character.SetMoving(false);
         }
 
         return vector;
@@ -37,24 +36,28 @@ public class PlayerController : CharacterController
 
     public Vector2 Vertical()
     {
-        Vector2 vector = new Vector2(0f, 0f);
+        Vector2 vector = Vector2.zero;
 
-        if (isOnGround) curJumpDur = 0;
-
-        if (curJumpDur < maxJumpDur) 
+        if (character.GetCurrentJumpTime() < character.GetMaxJumpTime()) 
         {
             if (Input.GetButton("Jump")) 
             {
-                isJumping = true;
-                vector = transform.up * jumpAccel;
-                curJumpDur += Time.deltaTime;
+                character.SetJumping(true);
+                character.AddJumpTime(Time.deltaTime);
+
+                vector = transform.up * character.GetJumpAccel();
             }
 
-            else if (isJumping) 
+            else if (character.IsJumping()) 
             {
-                curJumpDur = maxJumpDur;
-                isJumping = false;
+                // stop the jump
+                character.SetJumping(false);
+                character.SetJumpTime(character.GetMaxJumpTime());
             }
+        }
+        else if (character.OnGround())
+        {
+            character.SetJumpTime(0);
         }
 
         return vector;
