@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerController : AController
 {
+    float maxSpeed;
+
     public override void FixedUpdate() 
     {
         UpdateMovement(Horizontal());
@@ -15,14 +17,19 @@ public class PlayerController : AController
         Vector2 vector = Vector2.zero;
 
         float horizontal = Input.GetAxisRaw("Horizontal");
-        
+        character.SetRunning(Input.GetButton("Run"));
         if (Input.GetButton("Horizontal")) 
         {
             character.SetMoving(true);
 
             float acceleration = character.OnGround() ? character.GetGroundAccel() : character.GetAirAccel();
-            float maxSpeed = character.OnGround() ? character.GetMaxGroundSpeed() : character.GetMaxAirSpeed();
-            SetDrag(acceleration/maxSpeed);
+            if (character.OnGround())
+            {
+                maxSpeed = character.IsRunning() ? character.GetMaxRunSpeed() : character.GetMaxGroundSpeed();
+            }
+            else { maxSpeed = character.GetMaxAirSpeed(); }
+
+            SetDrag(acceleration / maxSpeed);
             
             vector = acceleration * horizontal * transform.right;
         }
