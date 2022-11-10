@@ -6,7 +6,6 @@ public class Player : ACharacter
 {
     // Attributes
     [Header("Health Point")]
-    [SerializeField] private float baseRegenHP;             // flat amount
     [SerializeField] private float regenPercentHP;          // percentage of max
     [SerializeField] private float regenMultiplierHP;       // ratio of current to max
     [SerializeField] private float regenFactorHP;           // factor of multiplier (big => good)
@@ -14,7 +13,6 @@ public class Player : ACharacter
     [SerializeField] private float maxMultiplierRegenHP;    // maximum ratio
 
     [Header("Mana Point")]
-    [SerializeField] private float baseRegenMP;
     [SerializeField] private float regenPercentMP;
     [SerializeField] private float regenMultiplierMP;
     [SerializeField] private float regenFactorMP;
@@ -22,7 +20,6 @@ public class Player : ACharacter
     [SerializeField] private float maxMultiplierRegenMP;
 
     [Header("Stamina Point")]
-    [SerializeField] private float baseRegenSP;
     [SerializeField] private float regenPercentSP;
     [SerializeField] private float regenMultiplierSP;
     [SerializeField] private float regenFactorSP;
@@ -41,67 +38,66 @@ public class Player : ACharacter
     // Setters
     public void SetRegenMultiplierHP(float multiplier)
     {
-        if (multiplier < minMultiplierRegenHP) { regenMultiplierHP = minMultiplierRegenHP; }
-        else if (multiplier > maxMultiplierRegenHP) { regenMultiplierHP = maxMultiplierRegenHP; }
-        else { regenMultiplierHP = multiplier; }
+        regenMultiplierHP = Mathf.Clamp(multiplier, minMultiplierRegenHP, maxMultiplierRegenHP);
     }
 
     public void SetRegenMultiplierMP(float multiplier)
     {
-        if (multiplier < minMultiplierRegenMP) { regenMultiplierMP = minMultiplierRegenMP; }
-        else if (multiplier > maxMultiplierRegenMP) { regenMultiplierMP = maxMultiplierRegenMP; }
-        else { regenMultiplierMP = multiplier; }
+        regenMultiplierMP = Mathf.Clamp(multiplier, minMultiplierRegenMP, maxMultiplierRegenMP);
     }
 
     public void SetRegenMultiplierSP(float multiplier)
     {
-        if (multiplier < minMultiplierRegenSP) { regenMultiplierSP = minMultiplierRegenSP; }
-        else if (multiplier > maxMultiplierRegenSP) { regenMultiplierSP = maxMultiplierRegenSP; }
-        else { regenMultiplierSP = multiplier; }
+        regenMultiplierSP = Mathf.Clamp(multiplier, minMultiplierRegenSP, maxMultiplierRegenSP);
     }
 
     public void SetRunConsumeMultiplierSP(float multiplier)
     {
-        if (multiplier < maxMultiplierRunConsumeSP) { runConsumeMultiplierSP = maxMultiplierRunConsumeSP; }
-        else if (multiplier > minMultiplierRegenSP) { runConsumeMultiplierSP = minMultiplierRunConsumeSP; }
-        else { runConsumeMultiplierSP = multiplier; }
+        runConsumeMultiplierSP = Mathf.Clamp(multiplier, minMultiplierRunConsumeSP, maxMultiplierRunConsumeSP);
     }
 
     // Methods
-    private void Regenerate()
+    private void NaturalRegenHP()
     {
-        CalculateBase();
-        CalculateMultiplier();
-
-        float regenAmountHP = baseRegenHP * regenMultiplierHP * Time.deltaTime;
-        float regenAmountMP = baseRegenMP * regenMultiplierMP * Time.deltaTime;
-        float regenAmountSP = baseRegenSP * regenMultiplierSP * Time.deltaTime;
-        float runConsumeAmountSP = baseRunConsumeSP * regenMultiplierSP * Time.deltaTime;
-        Debug.Log(regenAmountHP);
-        HealHP(regenAmountHP);
-        HealMP(regenAmountMP);
-        if (IsRunning())
+        float baseRegen = regenPercentHP * GetMaxHP();
+        if (regenMultiplierHP <= maxMultiplierRegenHP)
         {
-            RunConsumeSP(runConsumeAmountSP);
-        } else
-        {
-            HealSP(regenAmountSP);
+            SetRegenMultiplierHP(regenFactorHP * GetHP() / GetMaxHP());
+            
         }
+        float regenAmount = baseRegen * regenMultiplierHP * Time.deltaTime;
+        HealHP(regenAmount);
+    }
+    private void NaturalRegenMP()
+    {
+        float baseRegen = regenPercentMP * GetMaxMP();
+        if (regenMultiplierMP <= maxMultiplierRegenMP)
+        {
+            SetRegenMultiplierMP(regenFactorMP * GetMP() / GetMaxHP());
+        }
+        float regenAmount = baseRegen * regenMultiplierMP * Time.deltaTime;
+        HealMP(regenAmount);
+    }
+    private void NaturalRegenSP()
+    {
+        float baseRegen = regenPercentSP * GetMaxSP();
+        if (regenMultiplierSP <= maxMultiplierRegenSP)
+        {
+            SetRegenMultiplierSP(regenFactorSP * GetSP() / GetMaxSP());
+        }
+        float regenAmount = baseRegen * regenMultiplierSP * Time.deltaTime;
+        HealSP(regenAmount);
     }
 
-    private void CalculateBase()
+    private void RunConsumeSP()
     {
-        baseRegenHP = regenPercentHP * GetMaxHP();
-        baseRegenMP = regenPercentMP * GetMaxMP();
-        baseRegenSP = regenPercentSP * GetMaxSP();
-    }
-
-    private void CalculateMultiplier()
-    {
-        if (regenMultiplierHP <= maxMultiplierRegenHP) { SetRegenMultiplierHP(regenFactorHP * GetHP() / GetMaxHP()); }
-        if (regenMultiplierMP <= maxMultiplierRegenMP) { SetRegenMultiplierMP(regenFactorMP * GetMP() / GetMaxMP()); }
-        if (regenMultiplierSP <= maxMultiplierRegenSP) { SetRegenMultiplierSP(regenFactorSP * GetSP() / GetMaxSP()); }
-        if (runConsumeMultiplierSP >= maxMultiplierRegenSP) { SetRunConsumeMultiplierSP(runConsumeFactorSP * baseRunConsumeSP); }
+        float baseConsumption = baseRunConsumeSP + runConsumePercentSP * GetMaxSP();
+        if (runConsumeMultiplierSP <= maxMultiplierRunConsumeSP)
+        {
+            SetRunConsumeMultiplierSP(runConsumeFactorSP * (GetMaxSP() - GetSP()) / GetMaxSP());
+        }
+        float consumptionAmount = baseConsumption * runConsumeMultiplierSP * Time.deltaTime;
+        ConsumeSP(consumptionAmount);
     }
 
     // Fuctions
@@ -123,25 +119,26 @@ public class Player : ACharacter
         minMultiplierRegenHP = 0.05f;
         minMultiplierRegenMP = 0.025f;
         minMultiplierRegenSP = 0.15f;
-        minMultiplierRunConsumeSP = 1.0f;
+        minMultiplierRunConsumeSP = 0.2f;
 
         // maximum ratio
         maxMultiplierRegenHP = 0.8f;
         maxMultiplierRegenMP = 0.8f;
         maxMultiplierRegenSP = 0.9f;
-        maxMultiplierRunConsumeSP = 0.2f;
-
-        // flat amount
-        CalculateBase();
-
-        // ratio of current to max
-        CalculateMultiplier();
+        maxMultiplierRunConsumeSP = 1f;
     }
     private void FixedUpdate()
     {
-        if (GetHP() < GetMaxHP() || GetMP() < GetMaxMP() || GetSP() < GetMaxSP())
+        if (GetHP() < GetMaxHP()) { NaturalRegenHP(); }
+        if (GetMP() < GetMaxMP()) { NaturalRegenMP(); }
+        
+        if (!IsRunning())
         {
-            Regenerate();
+            if (GetSP() < GetMaxSP()) { NaturalRegenSP(); }
+        }
+        else
+        {
+            RunConsumeSP();
         }
     }
 }

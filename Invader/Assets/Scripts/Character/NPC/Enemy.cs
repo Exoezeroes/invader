@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+#pragma warning disable 0649
     [SerializeField] private float knockbackPower;
     [SerializeField] private float damageMin;
     [SerializeField] private float damageMax;
-
+#pragma warning restore 0649
     void OnCollisionEnter2D(Collision2D col)
     {
         ACharacter ac = col.gameObject.GetComponent<ACharacter>();
