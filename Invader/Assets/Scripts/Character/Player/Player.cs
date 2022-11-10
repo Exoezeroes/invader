@@ -77,8 +77,7 @@ public class Player : ACharacter
         float regenAmountMP = baseRegenMP * regenMultiplierMP * Time.deltaTime;
         float regenAmountSP = baseRegenSP * regenMultiplierSP * Time.deltaTime;
         float runConsumeAmountSP = baseRunConsumeSP * regenMultiplierSP * Time.deltaTime;
-        Debug.Log(regenAmountHP);
-        HealHP(regenAmountHP);
+        if (!IsOnCombat()) { HealHP(regenAmountHP); }
         HealMP(regenAmountMP);
         if (IsRunning())
         {
