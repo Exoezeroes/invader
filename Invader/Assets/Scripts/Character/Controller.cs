@@ -7,6 +7,11 @@ public abstract class Controller : MonoBehaviour
     // Attributes
     [SerializeField] protected Character character;
 
+    [Header("Animation")]
+    [SerializeField] private Animator anim;
+    [SerializeField] Transform weapon;
+
+
     // Abstracts
     public abstract void FixedUpdate();
 
@@ -24,13 +29,30 @@ public abstract class Controller : MonoBehaviour
         character.GetRigidbody().drag = val;
     }
 
-    // Functions
+    public void Attack(float damage, float range)
+    {
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition), range);
+        if (hit.collider != null)
+        {
+            ACharacter ac = hit.collider.gameObject.GetComponent<ACharacter>();
+            if (ac)
+            {
+                ac.Damage(damage, transform);
+                character.SetIsOnCombat(true);
+                ac.SetIsOnCombat(true);
+            }
+        }
+        weapon.right = Camera.main.ScreenToWorldPoint(Input.mousePosition) - weapon.position;
+        anim.SetTrigger("Attack");
+    }
 
-    void OnTriggerStay2D() {
+    void OnTriggerEnter2D(Collider2D col)
+    {
         character.SetGroundStatus(true);
     }
 
-    void OnTriggerExit2D() {
+    void OnTriggerExit2D(Collider2D col)
+    {
         character.SetGroundStatus(false);
     }
 }

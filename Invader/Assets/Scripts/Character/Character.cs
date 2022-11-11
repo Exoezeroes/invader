@@ -10,6 +10,7 @@ public abstract class Character : MonoBehaviour
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private ParticleSystem bloodParticle;
 #pragma warning restore 0649
+
     [Header("Health Point")]
     [SerializeField] private float currentHP = 100;
     [SerializeField] private float currentMaxHP = 100;
@@ -38,6 +39,7 @@ public abstract class Character : MonoBehaviour
     [SerializeField] private bool isRunning = false;
     [SerializeField] private bool isOnGround = false;
     [SerializeField] private bool isJumping = false;
+    [SerializeField] private bool isOnCombat = false;
 
     [Header("Movements", order = 1)]
     [Header("Acceleration", order = 2)]
@@ -68,12 +70,13 @@ public abstract class Character : MonoBehaviour
     public float GetBuildRange() { return buildRange; }
     public float GetCurrentJumpTime() { return jumpTime; }
     public float GetMaxJumpTime() { return maxJumpTime; }
-        // Statuses
+    // Statuses
     public bool IsMoving() { return isMoving; }
     public bool IsRunning() { return isRunning; }
     public bool OnGround() { return isOnGround; }
     public bool IsJumping() { return isJumping; }
-    public bool Alive() { return currentHP > 0; }
+    public bool IsOnCombat() { return isOnCombat; }
+    public bool Alive() { return currentHP > 0.5f; }
         // Movements
             // Accelerations
     public float GetGroundAccel() { return groundAccel; }
@@ -89,6 +92,7 @@ public abstract class Character : MonoBehaviour
     // Setters 
     public void SetMoving(bool status) { isMoving = status; }
     public void SetRunning(bool status) { isRunning = status; }
+    public void SetIsOnCombat(bool status) { isOnCombat = status; }
     public void SetGroundStatus(bool status) { isOnGround = status; }
     public void SetJumping(bool status) { isJumping = status; }
     public void SetJumpTime(float time) 
@@ -130,9 +134,14 @@ public abstract class Character : MonoBehaviour
     public void Damage(float damage, Transform enemy)
     {
         currentHP -= damage;
-        bloodParticle.transform.LookAt(enemy);
-        bloodParticle.Play();
+        if (!Alive()) { Death(); }
     }
+
+    private void Death()
+    {
+        Destroy(this.gameObject);
+    }
+
     // Game Functions
     public void Update()
     {

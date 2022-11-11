@@ -4,10 +4,23 @@ using UnityEngine;
 
 public class PlayerController : Controller
 {
+    // temporary attributes
+    [Header("Temporary Attributes")]
+    public float attackDamage;
+    public float attackRange;
+
     public override void FixedUpdate() 
     {
         UpdateMovement(Horizontal());
         UpdateMovement(Vertical());
+    }
+
+    void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Attack(attackDamage, attackRange);
+        }
     }
 
     public Vector2 Horizontal() 
