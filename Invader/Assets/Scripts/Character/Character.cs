@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class ACharacter : MonoBehaviour
+public abstract class Character : MonoBehaviour
 {
     // Attributes
     [Header("Physics Body")]

@@ -11,7 +11,7 @@ public class Enemy : MonoBehaviour
 #pragma warning restore 0649
     void OnCollisionEnter2D(Collision2D col)
     {
-        ACharacter ac = col.gameObject.GetComponent<ACharacter>();
+        Character ac = col.gameObject.GetComponent<Character>();
         if (ac)
         {
             float damage = Random.Range(damageMin, damageMax);

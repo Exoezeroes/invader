@@ -14,14 +14,21 @@ public class GridTester : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButton(0))
         {
             GameObject Object = new GameObject("Dirt Block");
             Block DirtBlock = Object.AddComponent<DirtBlock>();
             Grid.SetGridBlock(Util.GetMouseWorldPosition2D(), DirtBlock);
         }
 
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButton(1))
+        {
+            GameObject Object = new GameObject("StoneBlock");
+            Block StoneBlock = Object.AddComponent<StoneBlock>();
+            Grid.SetGridBlock(Util.GetMouseWorldPosition2D(), StoneBlock);
+        }
+
+        if (Input.GetMouseButton(2))
         {
             GameObject Object = new GameObject("Air");
             Block Air = Object.AddComponent<Air>();

@@ -9,6 +9,7 @@ public abstract class Block : MonoBehaviour
 
     // Properties
     public uint Id { get; protected set; }
+    public Sprite Sprite { get; private set; }
     public string Name { get; protected set; }
     public float Health { get; private set; }
     public float MaxHealth
@@ -27,20 +28,22 @@ public abstract class Block : MonoBehaviour
         Health -= damage;
         CheckHealth();
     }
-
     private void CheckHealth()
     {
         if (Health <= 0) Destroy(gameObject);
     }
-
-    protected Sprite LoadSprite()
+    private void SetSprite()
     {
-        return AtlasLoader.GetSprite(Name); ;
+        Sprite = AtlasLoader.GetSprite(Name);
+        gameObject.AddComponent<SpriteRenderer>().sprite = Sprite;
+    }
+    protected void CreateCollider()
+    {
+        gameObject.AddComponent<BoxCollider2D>();
     }
 
-    public virtual void Start()
+    protected virtual void Start()
     {
-        SpriteRenderer renderer = gameObject.AddComponent<SpriteRenderer>();
-        renderer.sprite = LoadSprite();
+        SetSprite();
     }
 }

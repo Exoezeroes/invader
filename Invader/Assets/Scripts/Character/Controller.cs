@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class AController : MonoBehaviour
+public abstract class Controller : MonoBehaviour
 {
     // Attributes
-    [SerializeField] protected ACharacter character;
+    [SerializeField] protected Character character;
 
     // Abstracts
     public abstract void FixedUpdate();

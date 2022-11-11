@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : AController
+public class PlayerController : Controller
 {
     public override void FixedUpdate() 
     {
