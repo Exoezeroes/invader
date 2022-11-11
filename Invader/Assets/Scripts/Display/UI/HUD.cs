@@ -8,6 +8,7 @@ public class HUD : MonoBehaviour
 {
 #pragma warning disable 0649
     [SerializeField] Player player;
+    [SerializeField] GameObject deathScreen;
     [SerializeField] Slider hpBar; // Health Point
     [SerializeField] Slider mpBar; // Mana Point
     [SerializeField] Slider spBar; // Stamina Point
@@ -29,5 +30,11 @@ public class HUD : MonoBehaviour
         hpText.text = "" + Mathf.Round(hpBar.value) + "/" + Mathf.Round(hpBar.maxValue);
         mpText.text = "" + Mathf.Round(mpBar.value) + "/" + Mathf.Round(mpBar.maxValue);
         spText.text = "" + Mathf.Round(spBar.value) + "/" + Mathf.Round(spBar.maxValue);
+
+        if (!player.Alive())
+        {
+            deathScreen.SetActive(true);
+            // gameObject.SetActive(false);
+        }
     }
 }

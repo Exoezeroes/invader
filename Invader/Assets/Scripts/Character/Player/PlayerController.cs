@@ -6,10 +6,23 @@ public class PlayerController : AController
 {
     float maxSpeed;
 
+    // temporary attributes
+    [Header("Temporary Attributes")]
+    public float attackDamage;
+    public float attackRange;
+
     public override void FixedUpdate() 
     {
         UpdateMovement(Horizontal());
         UpdateMovement(Vertical());
+    }
+
+    void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Attack(attackDamage, attackRange);
+        }
     }
 
     public Vector2 Horizontal() 

@@ -10,6 +10,6 @@ public class CamFollow : MonoBehaviour
 
     void Update()
     {
-        transform.position = target.position;
+        if (target != null) { transform.position = target.position; }
     }
 }
