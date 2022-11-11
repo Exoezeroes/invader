@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : AController
+public class PlayerController : Controller
 {
-    float maxSpeed;
-
     // temporary attributes
     [Header("Temporary Attributes")]
     public float attackDamage;
@@ -30,12 +28,22 @@ public class PlayerController : AController
         Vector2 vector = Vector2.zero;
 
         float horizontal = Input.GetAxisRaw("Horizontal");
-        character.SetRunning(Input.GetButton("Run"));
+
+        if (character.GetSP() > 0) 
+        {
+            character.SetRunning(Input.GetButton("Run"));
+        }
+        else
+        {
+            character.SetRunning(false);
+        }
+
         if (Input.GetButton("Horizontal")) 
         {
             character.SetMoving(true);
 
             float acceleration = character.OnGround() ? character.GetGroundAccel() : character.GetAirAccel();
+            float maxSpeed;
             if (character.OnGround())
             {
                 maxSpeed = character.IsRunning() ? character.GetMaxRunSpeed() : character.GetMaxGroundSpeed();

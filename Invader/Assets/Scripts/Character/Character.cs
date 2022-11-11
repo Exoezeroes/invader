@@ -1,16 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.U2D;
 
-public abstract class ACharacter : MonoBehaviour
+public abstract class Character : MonoBehaviour
 {
     // Attributes
     [Header("Physics Body")]
 #pragma warning disable 0649
     [SerializeField] private Rigidbody2D rb;
-    [SerializeField] private PhysicsMaterial2D groundPM; // ground physics material
-    [SerializeField] private PhysicsMaterial2D airPM; // air physics material
+    [SerializeField] private ParticleSystem bloodParticle;
 #pragma warning restore 0649
 
     [Header("Health Point")]
@@ -119,9 +117,9 @@ public abstract class ACharacter : MonoBehaviour
         if (currentSP > currentMaxSP) { currentSP = currentMaxSP; }
     }
 
-    public void RunConsumeSP(float val)
+    public void ConsumeSP(float val)
     {
-        currentSP -= val * Time.deltaTime;
+        currentSP -= val;
         if (currentSP < 0) { currentSP = 0; }
     }
 
@@ -147,7 +145,6 @@ public abstract class ACharacter : MonoBehaviour
     // Game Functions
     public void Update()
     {
-        if (isOnGround) { rb.sharedMaterial = groundPM; } else { rb.sharedMaterial = airPM; }
         currentMaxHP = baseMaxHP * multiplierHP;
         currentMaxMP = baseMaxMP * multiplierMP;
         currentMaxSP = baseMaxSP * multiplierSP;

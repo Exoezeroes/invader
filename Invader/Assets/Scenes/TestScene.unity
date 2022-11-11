@@ -16273,7 +16273,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.68039995, g: 0.87560314, b: 0.97199994, a: 0}
+  m_BackGroundColor: {r: 0, g: 0.13118309, b: 0.1981132, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -16290,8 +16290,8 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 25
-  m_Depth: -1
+  orthographic size: 20
+  m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -16405,8 +16405,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 1687774390}
-  groundPM: {fileID: 6200000, guid: bc373271b4454b547bc2772461a5e70c, type: 2}
-  airPM: {fileID: 6200000, guid: 2d8f7885bf79c094fb4c59e774c03d08, type: 2}
   currentHP: 100
   currentMaxHP: 100
   baseMaxHP: 100
@@ -16427,7 +16425,7 @@ MonoBehaviour:
   isOnGround: 0
   isJumping: 0
   isOnCombat: 0
-  groundAccel: 15
+  groundAccel: 20
   runAccel: 15
   jumpAccel: 60
   airAccel: 9
@@ -16435,19 +16433,16 @@ MonoBehaviour:
   maxRunSpeed: 40
   maxJumpSpeed: 30
   maxAirSpeed: 4
-  baseRegenHP: 0
   regenPercentHP: 0
   regenMultiplierHP: 0
   regenFactorHP: 0
   minMultiplierRegenHP: 0
   maxMultiplierRegenHP: 0
-  baseRegenMP: 0
   regenPercentMP: 0
   regenMultiplierMP: 0
   regenFactorMP: 0
   minMultiplierRegenMP: 0
   maxMultiplierRegenMP: 0
-  baseRegenSP: 0
   regenPercentSP: 0
   regenMultiplierSP: 0
   regenFactorSP: 0
